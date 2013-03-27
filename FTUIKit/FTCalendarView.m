@@ -277,26 +277,28 @@
 	NSDateComponents *nextDayOffsetComponents = [[NSDateComponents alloc] init];
 	[nextDayOffsetComponents setDay:1];
 
-	for(int y = 0; y < 6; y++) {
-		for(int x = 0; x < 7; x++) {			
+    int y = 0;
+    do {
+        for(int x = 0; x < 7; x++) {
 			CGRect cellFrame = [self frameForCellAtColumn:x row:y];
-
+            
 			FTCalendarViewCell *cell = [self cellFromDelegateForDate:currentDate];
 			NSParameterAssert(cell);
-
+            
 			cell.frame = cellFrame;
 			cell.date = currentDate;
 			cell.calendarView = self;
-
+            
 			[self addSubview:cell];
-
+            
 			cell.date = currentDate;
-
+            
 			currentDate = [gregorianCalendar_ dateByAddingComponents:nextDayOffsetComponents
 															  toDate:currentDate
 															 options:0];
 		}
-	}
+        y++;
+    } while ([self currentMonthContainsDate:currentDate]);
 }
 
 - (void)handleCellTap:(FTCalendarViewCell *)cell
